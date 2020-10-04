@@ -17,7 +17,7 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    MarketItem.findOne({ name: req.user.name })
+    MarketItem.find()
       .then(marketItem => {
         if (!marketItem) {
           return res.status(404).json({ marketItemnotfound: "No marketItem Found" });
@@ -28,60 +28,40 @@ router.get(
   }
 );
 
-// // @type    POST
-// //@route    /api/profile/
-// // @desc    route for UPDATING/SAVING personnal user profile
-// // @access  PRIVATE
-// router.post(
-//   "/",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     const profileValues = {};
-//     profileValues.user = req.user.id;
-//     if (req.body.username) profileValues.username = req.body.username;
-//     if (req.body.website) profileValues.website = req.body.website;
-//     if (req.body.country) profileValues.country = req.body.country;
-//     if (req.body.portfolio) profileValues.portfolio = req.body.portfolio;
-//     if (typeof req.body.languages !== undefined) {
-//       profileValues.languages = req.body.languages.split(",");
-//     }
-//     //get social links
-//     profileValues.social = {};
+// @type    POST
+// @route   /api/marketItem/
+// @desc    route for UPDATING/SAVING marketItem
+// @access  PRIVATE
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const marketItemValues = {};
+    marketItemValues.name = req.body.name;
+    marketItemValues.colour = req.body.colour;
+    marketItemValues.size = req.body.size;
+    marketItemValues.type = req.body.type;
 
-//     if (req.body.youtube) profileValues.social.youtube = req.body.youtube;
-//     if (req.body.facebook) profileValues.social.facebook = req.body.facebook;
-//     if (req.body.instagram) profileValues.social.instagram = req.body.instagram;
-
-//     //Do database stuff
-//     Profile.findOne({ user: req.user.id })
-//       .then(profile => {
-//         if (profile) {
-//           Profile.findOneAndUpdate(
-//             { user: req.user.id },
-//             { $set: profileValues },
-//             { new: true }
-//           )
-//             .then(profile => res.json(profile))
-//             .catch(err => console.log("problem in update" + err));
-//         } else {
-//           Profile.findOne({ username: profileValues.username })
-//             .then(profile => {
-//               //Username already exists
-//               if (profile) {
-//                 res.status(400).json({ username: "Username already exists" });
-//               }
-//               //save user
-//               new Profile(profileValues)
-//                 .save()
-//                 .then(profile => res.json(profile))
-//                 .catch(err => console.log(err));
-//             })
-//             .catch(err => console.log(err));
-//         }
-//       })
-//       .catch(err => console.log("Problem in fetching profile" + err));
-//   }
-// );
+    //Do database stuff
+    MarketItem.findOne(marketItemValues)
+      .then(marketItem => {
+        if (marketItem) {
+            res.status(400).json({ marketItem: "marketItem already exists, please delete or modify" });
+        } else {
+          //save marketItem
+          if (req.body.description) marketItemValues.description = req.body.description;
+          marketItemValues.price = req.body.price;
+          marketItemValues.stock = req.body.stock;
+          marketItemValues.status = req.body.status;
+          new MarketItem(marketItemValues)
+          .save()
+          .then(marketItem => res.json(marketItem))
+          .catch(err => console.log(err));
+        }
+      })
+      .catch(err => console.log("Problem in fetching marketItem" + err));
+  }
+);
 
 // // @type    GET
 // //@route    /api/profile/:username
