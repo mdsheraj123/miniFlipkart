@@ -87,7 +87,8 @@ router.post("/login", (req, res) => {
             //use payload and create token for user
             const payload = {
                 id: account.id,
-                username: account.username
+                username: account.username,
+                access: account.access
             };
             jsonwt.sign(
                 payload,
@@ -111,6 +112,24 @@ router.post("/login", (req, res) => {
   
 
 
+// @type    GET
+// @route   /api/auth/profile
+// @desc    route for user profile
+// @access  PRIVATE
+
+router.get(
+    "/profile",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        // console.log(req);
+        res.json({
+        id: req.user.id,
+        username: req.user.username,
+        access: req.user.access,
+        });
+    }
+);
+  
 
 
 
