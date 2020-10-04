@@ -1,0 +1,22 @@
+{
+  "name": "miniflipkart",
+  "version": "1.0.0",
+  "description": "Backend for E-Commerce Application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdsheraj123/miniFlipkart.git"
+  },
+  "keywords": [
+    "miniFlipkart"
+  ],
+  "author": "Mohammad Sheraj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdsheraj123/miniFlipkart/issues"
+  },
+  "homepage": "https://github.com/mdsheraj123/miniFlipkart#readme"
+}
