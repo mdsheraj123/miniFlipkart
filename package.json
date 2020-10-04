@@ -18,5 +18,15 @@
   "bugs": {
     "url": "https://github.com/mdsheraj123/miniFlipkart/issues"
   },
-  "homepage": "https://github.com/mdsheraj123/miniFlipkart#readme"
+  "homepage": "https://github.com/mdsheraj123/miniFlipkart#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.7",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "validator": "^13.1.17"
+  }
 }
