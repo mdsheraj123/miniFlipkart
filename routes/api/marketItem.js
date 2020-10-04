@@ -30,7 +30,7 @@ router.get(
 
 // @type    POST
 // @route   /api/marketItem/
-// @desc    route for UPDATING/SAVING marketItem
+// @desc    route for INSERTING marketItem
 // @access  PRIVATE
 router.post(
   "/",
@@ -46,7 +46,7 @@ router.post(
     MarketItem.findOne(marketItemValues)
       .then(marketItem => {
         if (marketItem) {
-            res.status(400).json({ marketItem: "marketItem already exists, please delete or modify" });
+            res.status(400).json({ marketItem: "marketItem already exists, please modify" });
         } else {
           //save marketItem
           if (req.body.description) marketItemValues.description = req.body.description;
@@ -62,6 +62,48 @@ router.post(
       .catch(err => console.log("Problem in fetching marketItem" + err));
   }
 );
+
+
+
+// @type    PATCH
+// @route   /api/marketItem/
+// @desc    route for MODIFYING marketItem
+// @access  PRIVATE
+router.patch(
+    "/",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        const marketItemValues = {};
+        marketItemValues.name = req.body.name;
+        marketItemValues.colour = req.body.colour;
+        marketItemValues.size = req.body.size;
+        marketItemValues.type = req.body.type;   
+
+        //Do database stuff
+        MarketItem.findOne(marketItemValues)
+        .then(marketItem => {
+            if (marketItem) {
+                if(req.body.description) marketItemValues.description = req.body.description;
+                if(req.body.price) marketItemValues.price = req.body.price;
+                if(req.body.stock) marketItemValues.stock = req.body.stock;
+                if(req.body.status) marketItemValues.status = req.body.status;
+
+                MarketItem.findOneAndUpdate(
+                    { name: req.body.name , colour: req.body.colour , size: req.body.size, type: req.body.type},
+                    { $set: marketItemValues },
+                    { new: true }
+                )
+                .then(marketItemValues => res.json(marketItemValues))
+                .catch(err => console.log("problem in update " + err));
+            } else {
+                res.status(400).json({ marketItem: "marketItem does not already exist, please insert" });
+            }
+        })
+        .catch(err => console.log("Problem in fetching marketItem" + err));
+    }
+);
+
+
 
 // // @type    GET
 // //@route    /api/profile/:username
