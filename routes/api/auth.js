@@ -145,34 +145,39 @@ router.get(
 router.post(
     "/addaccount",
     passport.authenticate("jwt", { session: false }),
-    (req, res) => { //use password sheraj123
-    Account.findOne({ username: req.body.username })
-    .then(account => {
-        if (account) {
-            return res
-            .status(400)
-            .json({ accounterror: "username is already registered in our system" });
+    (req, res) => {
+        if (req.user && req.user.access === "Admin") {
+            Account.findOne({ username: req.body.username })
+            .then(account => {
+                if (account) {
+                    return res
+                    .status(400)
+                    .json({ accounterror: "username is already registered in our system" });
+                } else {
+                    const newAccount = new Account({
+                        username: req.body.username,
+                        password: req.body.password,
+                        access: req.body.access
+                    });
+                    //Encrypt password using bcrypt
+                    bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(newAccount.password, salt, (err, hash) => {
+                        if (err) throw err;
+                        newAccount.password = hash;
+                        newAccount
+                        .save()
+                        .then(account => res.json(account))
+                        .catch(err => console.log(err));
+                    });
+                    });
+                }
+            })
+            .catch(err => console.log(err));
         } else {
-            const newAccount = new Account({
-                username: req.body.username,
-                password: req.body.password,
-                access: req.body.access
-            });
-            //Encrypt password using bcrypt
-            bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(newAccount.password, salt, (err, hash) => {
-                if (err) throw err;
-                newAccount.password = hash;
-                newAccount
-                .save()
-                .then(account => res.json(account))
-                .catch(err => console.log(err));
-            });
-            });
+            res.status(400).json({ passworderror: "You are not authorized" });
         }
-    })
-    .catch(err => console.log(err));
-});
+    }
+);
   
 
 
