@@ -114,7 +114,7 @@ router.post("/login", (req, res) => {
 
 // @type    GET
 // @route   /api/auth/profile
-// @desc    route for user profile
+// @desc    route for user profile //Get your own user data
 // @access  PRIVATE
 
 router.get(

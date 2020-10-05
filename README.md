@@ -19,7 +19,7 @@ Problem Statement
 To implement a small ecommerce web application backend with the below features. Features have been grouped by 3 different user types (roles) - admin, customer and sales-agent.  
   
 Admin:  
-//Login using username: and password:  
+//Login using username: and password:  Each access is for 5 hours  
 //localhost:3000/api/auth/register  
 //localhost:3000/api/auth/login  
 //Use Token for private queries  
@@ -27,7 +27,7 @@ Admin:
 // POST on /api/auth/addaccount with username:, password: and access:  
 // access is "Admin" "Customer" or "SalesAgent"  
 2.	Create new products and update existing products.  
-// GET POST AND PATCH /api/auth/marketItem  
+// GET POST AND PATCH /api/marketItem  
 // For POST fields are  name:, colour:, size:, type:, description:, price:, stock:, status:  
 // status is "Sale" "NotSale"  
 a.	Update product info  
