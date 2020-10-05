@@ -122,6 +122,42 @@ router.get(
 
 
   
+// @type    POST
+// @route   /api/order/all
+// @desc    route for UPDATING status of order
+// @access  PRIVATE
+router.post(
+    "/all",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        if (req.user && req.user.access === "SalesAgent") {
+            //Do database stuff
+            Order.findOne({_id: req.body._id})
+                .then(order => {
+                    if(order) {
+                        const orderValues = {};
+                        orderValues.status = req.body.status;
+
+                        Order.findOneAndUpdate(
+                            { _id: req.body._id},
+                            { $set: orderValues },
+                            { new: true }
+                        )
+                        .then(orderValues => res.json(orderValues))
+                        .catch(err => console.log("problem in update " + err));
+
+                    } else {
+                        res.status(400).json({ passworderror: "Order ID does not exist" });
+                    }
+                })
+                .catch(err => console.log("Problem in fetching order" + err));
+        } else {
+            res.status(400).json({ passworderror: "You are not authorized" });
+        }
+    }
+);
+  
+
 
 
 

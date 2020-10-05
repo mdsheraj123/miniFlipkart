@@ -36,7 +36,7 @@ const OrderSchema = new Schema({
   },
   status: {
     type: String,
-    required:true //pending, accepted, delivered
+    required:true //pending, accepted, delivered, cancelled
   }
 });
 
