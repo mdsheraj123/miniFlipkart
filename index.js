@@ -9,6 +9,7 @@ const passport = require("passport");
 //bring all routes
 const auth = require("./routes/api/auth");
 const marketItem = require("./routes/api/marketItem");
+const order = require("./routes/api/order");
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.get("/", (req, res) => {
 //actual routes
 app.use("/api/auth", auth);
 app.use("/api/marketItem", marketItem);
+app.use("/api/order", order);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App is running at ${port}`));
