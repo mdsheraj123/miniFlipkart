@@ -143,7 +143,7 @@ router.post(
                             { $set: orderValues },
                             { new: true }
                         )
-                        .then(orderValues => {res.json(orderValues);asyncCall();})
+                        .then(orderValues => {res.json(orderValues);asyncCall(orderValues);})
                         .catch(err => console.log("problem in update " + err));
 
                     } else {
@@ -159,17 +159,17 @@ router.post(
   
 
 
-function resolveAfter2Seconds() {
+function resolveAfter2Seconds(orderValues) {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve('SMS SENT');
+        resolve('SMS SENT ' + orderValues);
       }, 2000);
     });
   }
   
-  async function asyncCall() {
+  async function asyncCall(orderValues) {
     console.log('calling');
-    const result = await resolveAfter2Seconds();
+    const result = await resolveAfter2Seconds(orderValues);
     console.log(result);
     // expected output: "resolved"
   }
