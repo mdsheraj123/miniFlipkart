@@ -67,6 +67,8 @@ router.post(
                                 orderValues.quantity = req.body.quantity;
                                 orderValues.status = "pending";
 
+                                orderValues.user = req.user.id;
+
                                 //save order
                                 new Order(orderValues)
                                 .save()
