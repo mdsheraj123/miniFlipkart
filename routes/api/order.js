@@ -49,19 +49,17 @@ router.post(
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
         if (req.user && req.user.access === "Customer") {
-
-            const orderValues = {};
-            orderValues.name = req.body.name;
-            orderValues.colour = req.body.colour;
-            orderValues.size = req.body.size;
-            orderValues.type = req.body.type;
-            
             //Do database stuff
-            MarketItem.findOne(orderValues)
+            MarketItem.findOne({ _id: req.body.id })
                 .then(marketItem => {
                     if (marketItem) {
                         if(marketItem.status == "Sale") {
                             if(marketItem.stock >= req.body.quantity) {
+                                const orderValues = {};
+                                orderValues.name = marketItem.name;
+                                orderValues.colour = marketItem.colour;
+                                orderValues.size = marketItem.size;
+                                orderValues.type = marketItem.type;
                                 if (req.body.description) orderValues.description = req.body.description;
                                 orderValues.price = marketItem.price;
                                 orderValues.quantity = req.body.quantity;
