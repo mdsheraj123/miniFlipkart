@@ -103,6 +103,29 @@ router.patch(
 );
 
 
+// @type    GET
+// @route   /api/marketItem/forsale
+// @desc    route for items on Sale in market
+// @access  PRIVATE
+router.get(
+    "/forsale",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        if (req.user && req.user.access === "Customer") {
+        MarketItem.find({status: "Sale"})
+            .then(marketItem => {
+            if (!marketItem) {
+                return res.status(404).json({ marketItemnotfound: "No marketItem Found" });
+            }
+            res.json(marketItem);
+            })
+            .catch(err => console.log("got some error in marketItem " + err));
+        } else {
+            res.status(400).json({ passworderror: "You are not authorized, only Customer can do this" });
+        }
+    }
+);
+
 
 // // @type    GET
 // //@route    /api/profile/:username
