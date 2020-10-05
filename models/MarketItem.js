@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-//name,colour,size,type,description
-//ProductInstance,price,stock,status
-
-
 const MarketItemSchema = new Schema({
   name: {
     type: String,
