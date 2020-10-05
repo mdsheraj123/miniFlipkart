@@ -47,16 +47,21 @@ Customer:
 a.	While placing a new order, the customer's last purchase price for every product that has been purchased in the past should be shown along with the current price. 
 // GET on /api/order/
 b.	Only products which are “In stock” should be allowed to order. 
-// POST on /api/order/ with _id:
-4.	View past orders Get on /api/order/
+// POST on /api/order/ with id: which is marketItem _id: and quantity
+4.	View past orders 
+// GET on /api/order/
 
 Sales Agent:
-1.	Login using username and password. /api/auth/login
-2.	View orders for all customers /api/order/all
+1.	Login using username and password. 
+// POST on /api/auth/login with username: password:
+2.	View orders for all customers 
+// GET on /api/order/all
 3.	Process an Order:
-a.	Update order status [“Accepted”, “Delivered”, “Cancelled”] post on /api/order/all
+a.	Update order status [“Accepted”, “Delivered”, “Cancelled”] 
+// POST on /api/order/all with id: which is /api/order/all _id: and status:
 b.	On order accept:
-i.	An SMS is sent to the customer (Hint: Make it asynchronous.)//will do
+i.	An SMS is sent to the customer (Hint: Make it asynchronous.)
+// CHECK console
 
 Notes:
 ●	Product

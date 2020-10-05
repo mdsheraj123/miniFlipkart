@@ -132,14 +132,14 @@ router.post(
     (req, res) => {
         if (req.user && req.user.access === "SalesAgent") {
             //Do database stuff
-            Order.findOne({_id: req.body._id})
+            Order.findOne({_id: req.body.id})
                 .then(order => {
                     if(order) {
                         const orderValues = {};
                         orderValues.status = req.body.status;
 
                         Order.findOneAndUpdate(
-                            { _id: req.body._id},
+                            { _id: req.body.id},
                             { $set: orderValues },
                             { new: true }
                         )
