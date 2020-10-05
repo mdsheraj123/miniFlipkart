@@ -43,10 +43,10 @@ Customer:
 2.	View products for sale  
 // GET ON /api/marketItem/forsale  
 3.	Place an order for multiple products:  
+// POST on /api/order/ with id: which is marketItem _id: and quantity:  
 a.	While placing a new order, the customer's last purchase price for every product that has been purchased in the past should be shown along with the current price.  
 // GET on /api/order/  
 b.	Only products which are “In stock” should be allowed to order.  
-// POST on /api/order/ with id: which is marketItem _id: and quantity  
 4.	View past orders  
 // GET on /api/order/  
   
