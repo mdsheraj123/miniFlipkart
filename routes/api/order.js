@@ -89,6 +89,38 @@ router.post(
     }
 );
   
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// @type    GET
+// @route   /api/order/all
+// @desc    route for all orders of all customers
+// @access  PRIVATE
+router.get(
+    "/all",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        if (req.user && req.user.access === "SalesAgent") {
+            Order.find()
+                .then(order => {
+                if (!order) {
+                    return res.status(404).json({ ordernotfound: "No past order Found" });
+                }
+                res.json(order);
+                })
+                .catch(err => console.log("got some error in order " + err));
+        } else {
+            res.status(400).json({ passworderror: "You are not authorized" });
+        }
+    }
+);
+
+
   
 
 
