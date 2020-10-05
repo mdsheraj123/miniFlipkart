@@ -73,23 +73,22 @@ router.patch(
     "/",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-        const marketItemValues = {};
-        marketItemValues.name = req.body.name;
-        marketItemValues.colour = req.body.colour;
-        marketItemValues.size = req.body.size;
-        marketItemValues.type = req.body.type;   
-
         //Do database stuff
-        MarketItem.findOne(marketItemValues)
+        MarketItem.findOne({_id: req.body._id})
         .then(marketItem => {
             if (marketItem) {
+                const marketItemValues = {};
+                if(req.body.name) marketItemValues.name = req.body.name;
+                if(req.body.colour) marketItemValues.colour = req.body.colour;
+                if(req.body.size) marketItemValues.size = req.body.size;
+                if(req.body.type) marketItemValues.type = req.body.type;
                 if(req.body.description) marketItemValues.description = req.body.description;
                 if(req.body.price) marketItemValues.price = req.body.price;
                 if(req.body.stock) marketItemValues.stock = req.body.stock;
                 if(req.body.status) marketItemValues.status = req.body.status;
 
                 MarketItem.findOneAndUpdate(
-                    { name: req.body.name , colour: req.body.colour , size: req.body.size, type: req.body.type},
+                    { _id: req.body._id},
                     { $set: marketItemValues },
                     { new: true }
                 )
